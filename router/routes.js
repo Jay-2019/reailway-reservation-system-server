@@ -12,6 +12,16 @@ router.post('/signUp', services.signUp);
 // user Authentication ('/signIn)
 router.get('/authentication', services.authentication);
 
+router.post('/createTrain', services.createTrain);
+
+router.get('/listTrain', services.listTrain);
+
+router.get('/editTrain/:id', services.editTrain);
+
+router.post('/updateTrain/:id', services.updateTrain);
+
+router.get('/deleteTrain/:id', services.deleteTrain);
+
 //get current User(logged-In) Id
 // router.get('/currentUser/:email/:password', services.currentUser);
 

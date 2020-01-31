@@ -38,7 +38,7 @@ exports.createTrain = (req, res) => {
 
 exports.listTrain = (req, res) => {
     train.find((err, train) => {
-        err ? console.log(err) : res.json(train);
+        err ? console.log(err.message) : res.json(train);
     })
 };
 
@@ -54,22 +54,22 @@ exports.updateTrain = (req, res) => {
     train.findById(req.params.id, (err, train) => {
         if (!train)
             res.status(404).send("data is not found");
-        else
-
-
+        else {
             train.trainNumber = req.body.trainNumber;
-        train.trainName = req.body.trainName;
-        train.from = req.body.from;
-        train.to = req.body.to;
-        train.totalSeat = req.body.totalSeat;
-        train.fair = req.body.fair;
+            train.trainName = req.body.trainName;
+            train.from = req.body.from;
+            train.to = req.body.to;
+            train.totalSeat = req.body.totalSeat;
+            train.fair = req.body.fair;
 
-        train.save().then(todos => {
-            res.json('Train updated!');
-        })
-            .catch(err => {
-                res.status(400).send("Update not possible");
-            });
+            train.save().then(todos => {
+                res.json('Train updated!');
+            })
+                .catch(err => {
+                    res.status(400).send("Update not possible");
+                });
+        }
+
     });
 };
 
@@ -80,6 +80,17 @@ exports.deleteTrain = (req, res) => {
         err ? err.message : res.json({ message: "Train Deleted Successfully" });
     });
 };
+
+exports.resultTrain = (req, res) => {
+    const { from, to } = req.params;
+    train.find({ from: from, to: to }, (err, train) => err ? console.log(err.message) : res.json(train));
+}
+
+exports.bookTrain = (req, res) => {
+    const { trainNumber } = req.params;
+    train.findOne({ trainNumber: trainNumber }, (err, train) => err ? console.log(err.message) : res.json(train));
+}
+
 
 // return currentUser Id
 exports.currentUser = (req, res) => {

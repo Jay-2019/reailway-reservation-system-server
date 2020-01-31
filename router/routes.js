@@ -22,6 +22,13 @@ router.post('/updateTrain/:id', services.updateTrain);
 
 router.get('/deleteTrain/:id', services.deleteTrain);
 
+// router.get('/searchTrain', services.deleteTrain);
+
+router.get('/resultTrain/:from/:to', services.resultTrain);
+
+router.get('/bookTrain/:trainNumber', services.bookTrain);
+
+
 //get current User(logged-In) Id
 // router.get('/currentUser/:email/:password', services.currentUser);
 

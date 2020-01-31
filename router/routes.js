@@ -28,6 +28,11 @@ router.get('/resultTrain/:from/:to', services.resultTrain);
 
 router.get('/bookTrain/:trainNumber', services.bookTrain);
 
+router.post('/confirmTicket', services.confirmTicket);
+
+
+
+
 
 //get current User(logged-In) Id
 // router.get('/currentUser/:email/:password', services.currentUser);

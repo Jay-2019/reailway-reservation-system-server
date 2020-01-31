@@ -2,6 +2,7 @@
 
 const userProfile = require('../model/userSchema');
 const train = require('../model/trainSchema');
+const ticket = require('../model/ticketSchema');
 
 // authentication routes
 exports.authentication = (req, res) => {
@@ -91,6 +92,17 @@ exports.bookTrain = (req, res) => {
     train.findOne({ trainNumber: trainNumber }, (err, train) => err ? console.log(err.message) : res.json(train));
 }
 
+exports.confirmTicket = (req, res) => {
+    let newTicket = new ticket(req.body);
+    newTicket.save()
+        .then(status => {
+            res.status(200).json({ 'status': 'Booking Confirm' });
+        })
+        .catch(err => {
+            res.status(400).send('Booking  failed');
+            console.log(err.message);
+        });
+}
 
 // return currentUser Id
 exports.currentUser = (req, res) => {

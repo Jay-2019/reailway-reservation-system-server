@@ -11,6 +11,14 @@ exports.authentication = (req, res) => {
     });
 };
 
+// return currentUser profile
+exports.currentUser = (req, res) => {
+    let { email, password } = req.params;
+    userProfile.findOne({ email: email, confirmPassword: password }, (err, userProfile) => {
+        err ? console.log(err.message) : res.json(userProfile)
+    });
+}
+
 //signUp routes
 exports.signUp = (req, res) => {
     let newUser = new userProfile(req.body);
@@ -54,7 +62,7 @@ exports.editTrain = (req, res) => {
 exports.updateTrain = (req, res) => {
     train.findById(req.params.id, (err, train) => {
         if (!train)
-            res.status(404).send("data is not found");
+            res.status(404).send("train is not found");
         else {
             train.trainNumber = req.body.trainNumber;
             train.trainName = req.body.trainName;
@@ -63,7 +71,7 @@ exports.updateTrain = (req, res) => {
             train.totalSeat = req.body.totalSeat;
             train.fair = req.body.fair;
 
-            train.save().then(todos => {
+            train.save().then(train => {
                 res.json('Train updated!');
             })
                 .catch(err => {
@@ -71,6 +79,25 @@ exports.updateTrain = (req, res) => {
                 });
         }
 
+    });
+};
+
+// update total seat count
+exports.updateAvailableSeatCount = (req, res) => {
+    train.findOne({ trainNumber: req.params.trainNumber }, (err, train) => {
+        if (!train) {
+            res.status(404).send("train not found");
+        } else {
+
+            train.totalSeat = train.totalSeat - 1;
+
+            train.save().then(train => {
+                res.json("update Available Seat");
+            })
+                .catch(err => {
+                    res.status(400).send("seat update not possible");
+                });
+        }
     });
 };
 
@@ -85,15 +112,16 @@ exports.deleteTrain = (req, res) => {
 exports.resultTrain = (req, res) => {
     const { from, to } = req.params;
     train.find({ from: from, to: to }, (err, train) => err ? console.log(err.message) : res.json(train));
-}
+};
 
 exports.bookTrain = (req, res) => {
     const { trainNumber } = req.params;
     train.findOne({ trainNumber: trainNumber }, (err, train) => err ? console.log(err.message) : res.json(train));
-}
+};
 
 exports.confirmTicket = (req, res) => {
     let newTicket = new ticket(req.body);
+    newTicket.user.push(req.params.userId);
     newTicket.save()
         .then(status => {
             res.status(200).json({ 'status': 'Booking Confirm' });
@@ -102,11 +130,5 @@ exports.confirmTicket = (req, res) => {
             res.status(400).send('Booking  failed');
             console.log(err.message);
         });
-}
-
-// return currentUser Id
-exports.currentUser = (req, res) => {
-    let { email, password } = req.params;
-    userProfile.findOne({ email: email, confirmPassword: password }, (err, userProfile) => err ? console.log(err.message) : res.json(userProfile))
-}
+};
 

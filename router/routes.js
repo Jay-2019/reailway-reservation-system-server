@@ -12,6 +12,9 @@ router.post('/signUp', services.signUp);
 // user Authentication ('/signIn)
 router.get('/authentication', services.authentication);
 
+//get current User(signIn-user)
+router.get('/currentUser/:email/:password', services.currentUser);
+
 router.post('/createTrain', services.createTrain);
 
 router.get('/listTrain', services.listTrain);
@@ -28,13 +31,8 @@ router.get('/resultTrain/:from/:to', services.resultTrain);
 
 router.get('/bookTrain/:trainNumber', services.bookTrain);
 
-router.post('/confirmTicket', services.confirmTicket);
+router.post('/confirmTicket/:userId', services.confirmTicket);
 
-
-
-
-
-//get current User(logged-In) Id
-// router.get('/currentUser/:email/:password', services.currentUser);
+router.post('/updateAvailableSeatCount/:trainNumber', services.updateAvailableSeatCount);
 
 module.exports = router;

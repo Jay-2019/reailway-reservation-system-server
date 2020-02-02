@@ -38,6 +38,11 @@ let ticketSchema = new Schema({
         type: String,
         required: true
     },
+    user: [{
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }]
+
 });
 ticketSchema.plugin(timestamps);
 module.exports = mongoose.model('ticket', ticketSchema, 'ticket');

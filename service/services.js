@@ -82,25 +82,6 @@ exports.updateTrain = (req, res) => {
     });
 };
 
-// update total seat count
-exports.updateAvailableSeatCount = (req, res) => {
-    train.findOne({ trainNumber: req.params.trainNumber }, (err, train) => {
-        if (!train) {
-            res.status(404).send("train not found");
-        } else {
-
-            train.totalSeat = train.totalSeat - 1;
-
-            train.save().then(train => {
-                res.json("update Available Seat");
-            })
-                .catch(err => {
-                    res.status(400).send("seat update not possible");
-                });
-        }
-    });
-};
-
 // Delete particular train
 exports.deleteTrain = (req, res) => {
     // let id = req.params.id;
@@ -132,3 +113,38 @@ exports.confirmTicket = (req, res) => {
         });
 };
 
+// update total seat count
+exports.updateAvailableSeatCount = (req, res) => {
+    train.findOne({ trainNumber: req.params.trainNumber }, (err, train) => {
+        if (!train) {
+            res.status(404).send("train not found");
+        } else {
+
+            train.totalSeat = train.totalSeat - 1;
+
+            train.save().then(train => {
+                res.json("update Available Seat");
+            })
+                .catch(err => {
+                    res.status(400).send("seat update not possible");
+                });
+        }
+    });
+};
+
+exports.myTicket = (req, res) => {
+    ticket.find((err, ticket) => {
+        if (err) {
+            console.log(err.message);
+        } else {
+            let arr = ticket;
+            let test = arr.map(data => {
+                if (data.user[0] == req.params.userId) {
+                    return data;
+                }
+            })
+
+            res.json(test);
+        }
+    });
+};

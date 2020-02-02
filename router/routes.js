@@ -33,6 +33,9 @@ router.get('/bookTrain/:trainNumber', services.bookTrain);
 
 router.post('/confirmTicket/:userId', services.confirmTicket);
 
-router.post('/updateAvailableSeatCount/:trainNumber', services.updateAvailableSeatCount);
+router.post('/updateAvailableSeatCount/:trainNumber/:userId', services.updateAvailableSeatCount);
+
+router.get('/myTicket/:userId', services.myTicket);
+
 
 module.exports = router;

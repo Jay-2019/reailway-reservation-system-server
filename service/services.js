@@ -45,6 +45,22 @@ exports.createTrain = (req, res) => {
         });
 };
 
+exports.getStation = (req, res) => {
+    train.find((err, train) => {
+        if (err) {
+            console.log(err.message);
+        } else {
+            let setStation = [];
+            for (let i of train) {
+                setStation.push(i.from);
+                setStation.push(i.to);
+            }
+            let getStation = new Set(setStation);
+            res.json(Array.from(getStation));
+        }
+    })
+}
+
 exports.listTrain = (req, res) => {
     train.find((err, train) => {
         err ? console.log(err.message) : res.json(train);

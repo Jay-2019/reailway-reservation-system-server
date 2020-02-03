@@ -17,6 +17,8 @@ router.get('/currentUser/:email/:password', services.currentUser);
 
 router.post('/createTrain', services.createTrain);
 
+router.get('/getStation', services.getStation);
+
 router.get('/listTrain', services.listTrain);
 
 router.get('/editTrain/:id', services.editTrain);

@@ -3,6 +3,7 @@
 const userProfile = require('../model/userSchema');
 const train = require('../model/trainSchema');
 const ticket = require('../model/ticketSchema');
+const adminProfile = require('../model/adminSchema');
 
 // authentication routes
 exports.authentication = (req, res) => {
@@ -11,11 +12,24 @@ exports.authentication = (req, res) => {
     });
 };
 
+exports.adminAuthentication = (req, res) => {
+    adminProfile.find((err, adminProfile) => {
+        err ? console.log(err.message) : res.json(adminProfile);
+    });
+};
+
 // return currentUser profile
 exports.currentUser = (req, res) => {
     let { email, password } = req.params;
     userProfile.findOne({ email: email, confirmPassword: password }, (err, userProfile) => {
-        err ? console.log(err.message) : res.json(userProfile)
+        err ? console.log(err.message) : res.json(userProfile);
+    });
+}
+
+exports.currentAdmin = (req, res) => {
+    let { email, password } = req.params;
+    adminProfile.findOne({ email: email, confirmPassword: password }, (err, adminProfile) => {
+        err ? console.log(err.message) : res.json(adminProfile);
     });
 }
 
@@ -32,7 +46,22 @@ exports.signUp = (req, res) => {
         });
 };
 
+
 //signUp routes
+exports.AdminSignUp = (req, res) => {
+    let newUser = new adminProfile(req.body);
+    newUser.save()
+        .then(signUp => {
+            res.status(200).json({ 'signUp': 'signUp successfully' });
+        })
+        .catch(err => {
+            res.status(400).send('signUp failed');
+            console.log(err.message);
+        });
+};
+
+
+
 exports.createTrain = (req, res) => {
     let newTrain = new train(req.body);
     newTrain.save()

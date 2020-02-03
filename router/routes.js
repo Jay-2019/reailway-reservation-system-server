@@ -9,11 +9,18 @@ const services = require('../service/services')
 //signUp routes
 router.post('/signUp', services.signUp);
 
+router.post('/adminSignUp', services.AdminSignUp);
+
 // user Authentication ('/signIn)
 router.get('/authentication', services.authentication);
 
+router.get('/adminAuthentication', services.adminAuthentication);
+
 //get current User(signIn-user)
 router.get('/currentUser/:email/:password', services.currentUser);
+
+router.get('/currentAdmin/:email/:password', services.currentAdmin);
+
 
 router.post('/createTrain', services.createTrain);
 

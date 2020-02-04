@@ -18,6 +18,13 @@ exports.adminAuthentication = (req, res) => {
     });
 };
 
+exports.getMyProfile = (req, res) => {
+    let { userId } = req.params;
+    userProfile.findOne({ _id: userId }, (err, userProfile) => {
+        err ? console.log(err.message) : res.json(userProfile);
+    });
+}
+
 // return currentUser profile
 exports.currentUser = (req, res) => {
     let { email, password } = req.params;
@@ -188,7 +195,6 @@ exports.myTicket = (req, res) => {
                     return data;
                 }
             })
-
             res.json(test);
         }
     });

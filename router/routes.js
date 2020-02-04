@@ -16,6 +16,9 @@ router.get('/authentication', services.authentication);
 
 router.get('/adminAuthentication', services.adminAuthentication);
 
+router.get('/getMyProfile/:userId', services.getMyProfile);
+
+
 //get current User(signIn-user)
 router.get('/currentUser/:email/:password', services.currentUser);
 
